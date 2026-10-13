@@ -38,7 +38,6 @@ export const profile = {
   email: "gareth@parker.ltd",
   domain: "parker.ltd",
   description: "TypeScript, AWS and developer coaching.",
-  pitch: "I build systems with a view on how they fit into a given Domain.",
   links: [
     { label: "GitHub", href: "https://github.com/garethp" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/gareth-parker-11795823/" },

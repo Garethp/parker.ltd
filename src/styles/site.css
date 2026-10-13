@@ -193,7 +193,6 @@ section {
   border: 0;
 }
 
-/* Intro: name and pitch left, quick facts right */
 .intro {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);

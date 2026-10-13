@@ -7,9 +7,6 @@ export function Intro() {
       <div>
         <h1>{profile.name}</h1>
         <p className="role">{profile.role}</p>
-        <p className="pitch">
-          <Text>{profile.pitch}</Text>
-        </p>
         <ul className="actions">
           {profile.links.map((link) => (
             <li key={link.href}>
