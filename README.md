@@ -25,4 +25,3 @@ that I've been applying since long before NextJS was a thing.
 
 With that said, I lucked out in this case because I can just render the entire website in static HTML. This is the exact
 kind of use-case that I believe best benefits from simplicity in user-interaction and design. So why overcomplicate it?
-In fact with this approach, and hosting from GitHub Pages, I've got a TTFP of (x)ms.

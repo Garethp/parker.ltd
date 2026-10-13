@@ -1,15 +1,14 @@
-import { pages, skipLink } from "../src/data/profile";
 import { expect, test } from "./fixtures";
 
-for (const path of [...pages.map((p) => p.href), "/no-such-page/"]) {
+for (const path of ["/", "/abbreviations/", "/no-such-page/"]) {
   test(`skip link is the first stop and jumps to the main content on ${path}`, async ({ page }) => {
     await page.goto(path);
     await page.keyboard.press("Tab");
-    const skip = page.getByRole("link", { name: skipLink.label });
+    const skip = page.getByRole("link", { name: "Skip to main content" });
     await expect(skip).toBeFocused();
     await expect(skip).toBeInViewport();
     await page.keyboard.press("Enter");
-    await expect(page).toHaveURL(new RegExp(`${skipLink.href}$`));
+    await expect(page).toHaveURL(/#main$/);
     await expect(page.getByRole("main")).toBeInViewport();
 
     await page.keyboard.press("Tab");

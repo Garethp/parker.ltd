@@ -66,6 +66,11 @@ a {
 a:hover {
   text-decoration-thickness: 0.16em;
 }
+
+abbr[title] {
+  text-decoration: none;
+  cursor: help;
+}
 :focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
@@ -199,9 +204,28 @@ section {
   gap: 2rem 3.5rem;
   align-items: start;
 }
+
+.intro:has(> .now) {
+  grid-template-rows: auto 1fr;
+}
+.intro > .glance {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
 @media (max-width: 47.5em) {
   .intro {
     grid-template-columns: 1fr;
+  }
+  .intro:has(> .now) {
+    grid-template-rows: none;
+  }
+  .intro > .glance {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  /* Same space above Now as between the other sections */
+  .intro > .now {
+    margin-top: 1.5rem;
   }
 }
 h1 {
@@ -424,6 +448,21 @@ h2 small {
   .meta span:has(> a) {
     flex-basis: 100%;
   }
+}
+
+/* About this site */
+.about p {
+  max-width: 58ch;
+  margin: 0 0 1.1rem;
+}
+.about ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.6rem;
+}
+.about li {
+  max-width: 58ch;
 }
 
 /* Standalone links get a 44px tall target (WCAG 2.5.5, AAA). Links inside sentences are exempt. */

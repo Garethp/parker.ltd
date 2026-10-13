@@ -1,4 +1,3 @@
-import { pages, profile } from "../src/data/profile";
 import { expectAccessible } from "./accessibility";
 import { expect, test } from "./fixtures";
 
@@ -7,7 +6,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("home page is accessible", async ({ page }) => {
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(profile.name);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Gareth Parker");
   await expectAccessible(page);
 });
 
@@ -65,7 +64,10 @@ test("toggles used in another tab update this one", async ({ page, theme, comfor
 
 test("footer links to every page", async ({ page }) => {
   const nav = page.getByRole("navigation", { name: "Pages" });
-  for (const { label, href } of pages) {
+  for (const [label, href] of [
+    ["Home", "/"],
+    ["Abbreviations", "/abbreviations/"],
+  ]) {
     await expect(nav.getByRole("link", { name: label })).toHaveAttribute("href", href);
   }
   await expect(nav.getByRole("link", { name: "Home" })).toHaveAttribute("aria-current", "page");

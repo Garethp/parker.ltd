@@ -1,16 +1,14 @@
 ---
 import "../styles/site.css";
-import { profile, skipLink } from "../data/profile";
 
 interface Props {
   title: string;
   description?: string;
-  /** Path of this page, used for the canonical link. Leave out for pages that shouldn't be indexed. */
   path?: string;
 }
 
-const { title, description = profile.description, path } = Astro.props;
-const site = Astro.site ?? new URL(`https://${profile.domain}`);
+const { title, description = "TypeScript, AWS and developer coaching.", path } = Astro.props;
+const site = Astro.site ?? new URL("https://parker.ltd");
 const canonical = path ? new URL(path, site).href : undefined;
 const ogImage = new URL("/og.png", site).href;
 ---
@@ -18,6 +16,11 @@ const ogImage = new URL("/og.png", site).href;
 <!doctype html>
 <html lang="en-GB">
   <head>
+    <!--
+      Hey, thanks for taking the time to explore the source code for my website. For you curious readers, I've left
+      a little bit of developer commentary scattered throughout the structure, but you'll need to scroll past the CSS
+      before you get to it.
+     -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{title}</title>
@@ -27,17 +30,19 @@ const ogImage = new URL("/og.png", site).href;
     <meta name="theme-color" content="#111318" data-light="#f6f7f9" data-dark="#111318">
 
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content={profile.domain}>
+    <meta property="og:site_name" content="parker.ltd">
     <meta property="og:title" content={title}>
     <meta property="og:description" content={description}>
     {canonical && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={ogImage}>
     <meta property="og:image:width" content="1000">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content={profile.shareCardAlt}>
+    <meta
+      property="og:image:alt"
+      content="Gareth Parker, Principal Engineer, since 2010, test driven, written as a JSX element. parker.ltd"
+    >
     <meta name="twitter:card" content="summary_large_image">
 
-    <!-- This goes in the header, so that we don't have any flashing as we change colour scheme -->
     <script is:inline>
     (() => {
       const root = document.documentElement;
@@ -52,14 +57,12 @@ const ogImage = new URL("/og.png", site).href;
       if (bar) bar.content = bar.dataset[root.dataset.theme];
       if (comfort === "on") root.dataset.comfort = "on";
 
-      // We want to hide the dark mode and reading comfort buttons on non-JS browsers, so we control it in a way that's
-      // only shown when JS is enabled, and before first-paint.
       root.dataset.js = "";
     })();
     </script>
   </head>
   <body>
-    <a class="skip" href={skipLink.href}>{skipLink.label}</a>
+    <a class="skip" href="#main">Skip to main content</a>
     <slot />
 
     <script is:inline>

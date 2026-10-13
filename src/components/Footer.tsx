@@ -1,5 +1,9 @@
-import { footer, pages, profile } from "../data/profile";
 import { Text } from "./Text";
+
+const pages = [
+  { label: "Home", href: "/" },
+  { label: "Abbreviations", href: "/abbreviations/" },
+];
 
 export function Footer({ current }: { current?: string }) {
   return (
@@ -15,15 +19,12 @@ export function Footer({ current }: { current?: string }) {
           ))}
         </ul>
       </nav>
-      <p>
-        © {new Date().getFullYear()} {profile.name}.{" "}
-        {footer.source && (
-          <>
-            <a href={footer.source}>GitHub repo for this site</a>.{" "}
-          </>
-        )}
-        <Text>{footer.accessibility}</Text>
-      </p>
+      <Text>
+        <p>
+          MIT © {new Date().getFullYear()} Gareth Parker.{" "}
+          <a href="https://github.com/Garethp/parker.ltd">GitHub repo for this site</a>. WCAG 2.2 AA accessible.
+        </p>
+      </Text>
     </footer>
   );
 }

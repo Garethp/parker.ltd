@@ -1,5 +1,5 @@
 import { abbreviations } from "../data/abbreviations";
-import { glossary } from "../data/profile";
+import { Comment } from "./Comment.tsx";
 import { Controls } from "./Controls";
 import { Footer } from "./Footer";
 import { Text } from "./Text";
@@ -10,10 +10,14 @@ export function Glossary() {
   return (
     <div className="page">
       <Controls />
+      <Comment>
+        Sorry, I don't actually have any interesting commentary for the Glossary, but I appreciate the vote of
+        confidence that I might.
+      </Comment>
       <main id="main" className="stack">
         <header>
-          <h1>{glossary.title}</h1>
-          <p className="pitch">{glossary.intro}</p>
+          <h1>Abbreviations</h1>
+          <p className="pitch">The abbreviations used on this site, written out in full.</p>
         </header>
         <dl className="glossary">
           {entries.map(([abbr, expansion]) => (
@@ -26,7 +30,7 @@ export function Glossary() {
           ))}
         </dl>
       </main>
-      <Footer current={glossary.href} />
+      <Footer current="/abbreviations/" />
     </div>
   );
 }

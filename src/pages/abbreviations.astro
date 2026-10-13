@@ -1,9 +1,12 @@
 ---
 import { Glossary } from "../components/Glossary";
-import { glossary, profile } from "../data/profile";
 import Base from "../layouts/Base.astro";
 ---
 
-<Base title={`${glossary.title}, ${profile.name}`} description={glossary.description} path={glossary.href}>
+<Base
+  title="Abbreviations, Gareth Parker"
+  description="The abbreviations used on parker.ltd, written out in full."
+  path="/abbreviations/"
+>
   <Glossary />
 </Base>

@@ -1,13 +1,14 @@
 {
   "name": "parker-ltd",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "engines": {
     "node": ">=24 <25"
   },
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
-    "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build && yarn format:dist",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build && yarn format:dist && node scripts/wrap-comments.ts",
     "format:dist": "biome format --write --vcs-use-ignore-file=false dist",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "lint": "biome check .",
@@ -30,7 +31,8 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "playwright-core": "1.63.0",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "vite": "8.3.2"
   },
   "packageManager": "yarn@4.18.1"
 }
