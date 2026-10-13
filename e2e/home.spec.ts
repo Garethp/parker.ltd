@@ -71,30 +71,24 @@ test("footer links to every page", async ({ page }) => {
   await expect(nav.getByRole("link", { name: "Home" })).toHaveAttribute("aria-current", "page");
 });
 
-test("a first visit follows the system theme", async ({ browser, baseURL }) => {
+test("a first visit is dark, whatever the system theme", async ({ browser, baseURL }) => {
   for (const colorScheme of ["light", "dark"] as const) {
     const context = await browser.newContext({ colorScheme, baseURL });
     const page = await context.newPage();
     await page.goto("/");
-    await expect(page.locator("html")).toHaveAttribute("data-theme", colorScheme);
-    await expect(page.getByRole("button", { name: "Dark mode" })).toHaveAttribute(
-      "aria-pressed",
-      String(colorScheme === "dark"),
-    );
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await expect(page.getByRole("button", { name: "Dark mode" })).toHaveAttribute("aria-pressed", "true");
     await context.close();
   }
 });
 
-test("without JavaScript the page follows the system theme and hides the toggles", async ({ browser, baseURL }) => {
+test("without JavaScript the page is dark and hides the toggles", async ({ browser, baseURL }) => {
   for (const colorScheme of ["light", "dark"] as const) {
     const context = await browser.newContext({ colorScheme, baseURL, javaScriptEnabled: false });
     const page = await context.newPage();
     await page.goto("/");
     await expect(page.locator("html")).not.toHaveAttribute("data-theme");
-    await expect(page.locator("body")).toHaveCSS(
-      "background-color",
-      colorScheme === "dark" ? "rgb(17, 19, 24)" : "rgb(246, 247, 249)",
-    );
+    await expect(page.locator("body")).toHaveCSS("background-color", "rgb(17, 19, 24)");
     await expect(page.getByRole("button")).toHaveCount(0);
     await context.close();
   }

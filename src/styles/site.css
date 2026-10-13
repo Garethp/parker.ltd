@@ -17,42 +17,30 @@
   src: url("/fonts/atkinson-hyperlegible-mono.woff2") format("woff2");
 }
 
+/* Dark by default, whatever the system setting; light only when chosen with the toggle */
 :root {
-  --bg: #f6f7f9;
-  --surface: #ffffff;
-  --ink: #13151b;
-  --ink-2: #3f4452;
-  --rule: #c9cdd6;
-  --control: #6e7482; /* control borders: 3:1 or more for WCAG 1.4.11; --rule is too faint */
-  --accent: #004c93; /* Saltire blue, darkened for 8:1 on --bg */
-  --accent-ink: #ffffff;
-  --sans: "Inclusive Sans", "Atkinson Hyperlegible Next", Verdana, sans-serif;
-  --mono: "Atkinson Hyperlegible Mono", ui-monospace, Consolas, monospace;
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #111318;
-    --surface: #1a1d24;
-    --ink: #eef0f4;
-    --ink-2: #b9bfcc;
-    --rule: #353a46;
-    --control: #7b8292;
-    --accent: #7cc0ff;
-    --accent-ink: #111318;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
   --bg: #111318;
   --surface: #1a1d24;
   --ink: #eef0f4;
   --ink-2: #b9bfcc;
   --rule: #353a46;
-  --control: #7b8292;
+  --control: #7b8292; /* control borders: 3:1 or more for WCAG 1.4.11; --rule is too faint */
   --accent: #7cc0ff;
   --accent-ink: #111318;
+  --sans: "Inclusive Sans", "Atkinson Hyperlegible Next", Verdana, sans-serif;
+  --mono: "Atkinson Hyperlegible Mono", ui-monospace, Consolas, monospace;
   color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --ink: #13151b;
+  --ink-2: #3f4452;
+  --rule: #c9cdd6;
+  --control: #6e7482;
+  --accent: #004c93; /* Saltire blue, darkened for 8:1 on --bg */
+  --accent-ink: #ffffff;
+  color-scheme: light;
 }
 
 * {
@@ -498,7 +486,7 @@ footer p {
     margin: 16mm 18mm;
   }
   :root,
-  :root[data-theme="dark"] {
+  :root[data-theme="light"] {
     --bg: #fff;
     --surface: #fff;
     --ink: #000;
