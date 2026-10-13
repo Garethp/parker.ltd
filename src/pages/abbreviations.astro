@@ -1,0 +1,9 @@
+---
+import { Glossary } from "../components/Glossary";
+import { glossary, profile } from "../data/profile";
+import Base from "../layouts/Base.astro";
+---
+
+<Base title={`${glossary.title}, ${profile.name}`} description={glossary.description} path={glossary.href}>
+  <Glossary />
+</Base>

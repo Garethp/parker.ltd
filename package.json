@@ -1,0 +1,36 @@
+{
+  "name": "parker-ltd",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build && yarn format:dist",
+    "format:dist": "biome format --write --vcs-use-ignore-file=false dist",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test:e2e": "playwright test",
+    "og": "node scripts/make-og.ts"
+  },
+  "dependencies": {
+    "@astrojs/react": "7.0.0",
+    "astro": "7.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@axe-core/playwright": "4.13.0",
+    "@biomejs/biome": "2.5.15",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.19.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "playwright-core": "1.63.0",
+    "typescript": "6.0.3"
+  },
+  "packageManager": "yarn@4.18.1"
+}

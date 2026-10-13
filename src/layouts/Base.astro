@@ -1,0 +1,125 @@
+---
+import "../styles/site.css";
+import { profile, skipLink } from "../data/profile";
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Path of this page, used for the canonical link. Leave out for pages that shouldn't be indexed. */
+  path?: string;
+}
+
+const { title, description = profile.description, path } = Astro.props;
+const site = Astro.site ?? new URL(`https://${profile.domain}`);
+const canonical = path ? new URL(path, site).href : undefined;
+const ogImage = new URL("/og.png", site).href;
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    {canonical ? <link rel="canonical" href={canonical} /> : <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <meta name="theme-color" content="#111318" data-light="#f6f7f9" data-dark="#111318">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content={profile.domain}>
+    <meta property="og:title" content={title}>
+    <meta property="og:description" content={description}>
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogImage}>
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content={profile.shareCardAlt}>
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- This goes in the header, so that we don't have any flashing as we change colour scheme -->
+    <script is:inline>
+    (() => {
+      const root = document.documentElement;
+      let theme = null,
+        comfort = null;
+      try {
+        theme = localStorage.getItem("theme");
+        comfort = localStorage.getItem("comfort");
+      } catch {}
+      root.dataset.theme =
+        theme === "light" || theme === "dark"
+          ? theme
+          : matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+      const bar = document.querySelector('meta[name="theme-color"]');
+      if (bar) bar.content = bar.dataset[root.dataset.theme];
+      if (comfort === "on") root.dataset.comfort = "on";
+
+      // We want to hide the dark mode and reading comfort buttons on non-JS browsers, so we control it in a way that's
+      // only shown when JS is enabled, and before first-paint.
+      root.dataset.js = "";
+    })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href={skipLink.href}>{skipLink.label}</a>
+    <slot />
+
+    <script is:inline>
+    (() => {
+      const root = document.documentElement;
+      const save = (key, value) => {
+        try {
+          localStorage.setItem(key, value);
+        } catch {}
+      };
+
+      const comfort = document.getElementById("comfort");
+      const theme = document.getElementById("theme");
+      if (!comfort || !theme) return;
+
+      const bar = document.querySelector('meta[name="theme-color"]');
+
+      const sync = () => {
+        if (bar) bar.content = bar.dataset[root.dataset.theme];
+        comfort.setAttribute("aria-pressed", String(root.dataset.comfort === "on"));
+        theme.setAttribute("aria-pressed", String(root.dataset.theme === "dark"));
+      };
+
+      comfort.addEventListener("click", () => {
+        const on = root.dataset.comfort !== "on";
+        if (on) root.dataset.comfort = "on";
+        else delete root.dataset.comfort;
+        save("comfort", on ? "on" : "off");
+        sync();
+      });
+
+      theme.addEventListener("click", () => {
+        root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+        save("theme", root.dataset.theme);
+        sync();
+      });
+
+      addEventListener("storage", ({ key, newValue }) => {
+        if (key === "theme" || key === null) {
+          root.dataset.theme =
+            newValue === "light" || newValue === "dark"
+              ? newValue
+              : matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+        }
+        if (key === "comfort" || key === null) {
+          if (newValue === "on") root.dataset.comfort = "on";
+          else delete root.dataset.comfort;
+        }
+        sync();
+      });
+
+      sync();
+    })();
+    </script>
+  </body>
+</html>

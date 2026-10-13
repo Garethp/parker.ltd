@@ -1,0 +1,9 @@
+---
+import { Home } from "../components/Home";
+import { profile } from "../data/profile";
+import Base from "../layouts/Base.astro";
+---
+
+<Base title={`${profile.name}, ${profile.role}`} path="/">
+  <Home />
+</Base>

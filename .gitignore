@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+playwright-report/
+test-results/
+
+# Yarn: commit the release binary, ignore the rest
+.yarn/*
+!.yarn/releases
+!.yarn/patches
+!.yarn/plugins

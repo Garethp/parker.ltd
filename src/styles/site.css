@@ -1,0 +1,567 @@
+/* Fonts taken from Fontsource
+   (@fontsource-variable/inclusive-sans and atkinson-hyperlegible-mono, 5.3.0);
+   licences sit next to the fonts. */
+@font-face {
+  font-family: "Inclusive Sans";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/inclusive-sans.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Atkinson Hyperlegible Mono";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/fonts/atkinson-hyperlegible-mono.woff2") format("woff2");
+}
+
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --ink: #13151b;
+  --ink-2: #3f4452;
+  --rule: #c9cdd6;
+  --control: #6e7482; /* control borders: 3:1 or more for WCAG 1.4.11; --rule is too faint */
+  --accent: #004c93; /* Saltire blue, darkened for 8:1 on --bg */
+  --accent-ink: #ffffff;
+  --sans: "Inclusive Sans", "Atkinson Hyperlegible Next", Verdana, sans-serif;
+  --mono: "Atkinson Hyperlegible Mono", ui-monospace, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111318;
+    --surface: #1a1d24;
+    --ink: #eef0f4;
+    --ink-2: #b9bfcc;
+    --rule: #353a46;
+    --control: #7b8292;
+    --accent: #7cc0ff;
+    --accent-ink: #111318;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111318;
+  --surface: #1a1d24;
+  --ink: #eef0f4;
+  --ink-2: #b9bfcc;
+  --rule: #353a46;
+  --control: #7b8292;
+  --accent: #7cc0ff;
+  --accent-ink: #111318;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  font-size: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+}
+a {
+  color: var(--accent);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 0.08em;
+}
+a:hover {
+  text-decoration-thickness: 0.16em;
+}
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+/* Jumps to <main>. Browsers start the next Tab from a link's target, so <main> needs no tabindex. */
+.skip {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 0.5rem 0.8rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+}
+.skip:focus {
+  top: 12px;
+}
+
+.page {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding-inline: 20px;
+  padding-block: 1.25rem 4rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 3.5rem;
+}
+.stack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 3.5rem;
+}
+section {
+  scroll-margin-top: 4.5rem;
+}
+
+/* Display toggles */
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-bottom: -2rem;
+}
+/* Hidden without JavaScript, where the toggles can't work. The <head> script
+   sets data-js before first paint, so they never appear late and shift the page. */
+:root:not([data-js]) .topbar {
+  display: none;
+}
+#comfort,
+#theme {
+  font: 500 0.9rem var(--mono);
+  line-height: inherit; /* the font shorthand resets it to normal (about 1.3); WCAG 1.4.8 wants 1.5 */
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--control);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  min-height: 44px;
+}
+#comfort:hover,
+#theme:hover {
+  border-color: var(--ink-2);
+}
+#comfort[aria-pressed="true"] {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+/* Forced colours mode drops box-shadow, so show the pressed state with a thicker border */
+@media (forced-colors: active) {
+  #comfort[aria-pressed="true"] {
+    border-width: 3px;
+    padding-inline: calc(0.9rem - 2px);
+  }
+}
+#theme {
+  padding-left: 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+#theme::before {
+  content: "";
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+}
+
+/* Reading comfort: wider letter, word and line spacing, shorter lines, slightly larger text */
+:root[data-comfort="on"] body {
+  font-size: 1.18rem;
+  line-height: 1.9;
+  letter-spacing: 0.035em;
+  word-spacing: 0.16em;
+}
+:root[data-comfort="on"] h1,
+:root[data-comfort="on"] h2 {
+  letter-spacing: 0;
+}
+:root[data-comfort="on"] .page p {
+  max-width: 58ch;
+}
+:root[data-comfort="on"] .entry p,
+:root[data-comfort="on"] .project p {
+  margin-top: 0.5rem;
+}
+
+/* Named for screen readers, not shown */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Intro: name and pitch left, quick facts right */
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 2rem 3.5rem;
+  align-items: start;
+}
+@media (max-width: 47.5em) {
+  .intro {
+    grid-template-columns: 1fr;
+  }
+}
+h1 {
+  font-weight: 700;
+  font-size: clamp(2.6rem, 7vw, 4.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+  hyphens: auto;
+}
+.role {
+  font: 500 1rem var(--mono);
+  line-height: inherit;
+  color: var(--ink-2);
+  margin: 0 0 1.25rem;
+}
+.pitch {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  margin: 0 0 1.5rem;
+  max-width: 34ch;
+  text-wrap: pretty;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.actions a.primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.actions a:hover {
+  text-decoration: underline;
+}
+
+.facts {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 1.25rem 1.4rem;
+  margin: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+.facts div {
+  display: grid;
+  gap: 0.1rem;
+}
+.facts dt {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink-2);
+}
+.facts dd {
+  margin: 0;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.1rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+h2 small {
+  font: 400 0.9rem var(--mono);
+  line-height: inherit;
+  color: var(--ink-2);
+  letter-spacing: 0;
+}
+
+/* Paragraphs stop at 58ch, about 77 characters of Inclusive Sans, under the
+   80 that WCAG 1.4.8 (AAA) allows. ch is the width of "0", wider than average. */
+
+/* Now */
+.now p {
+  max-width: 58ch;
+  margin: 0;
+}
+
+/* Work register */
+.register {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 2px solid var(--ink);
+}
+.entry {
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  gap: 0.25rem 1.75rem;
+  padding-block: 1.1rem;
+  border-bottom: 1px solid var(--rule);
+}
+@media (max-width: 40em) {
+  .entry {
+    grid-template-columns: 1fr;
+  }
+}
+.when {
+  font: 0.95rem var(--mono);
+  line-height: inherit;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.2rem;
+}
+.entry h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.entry h3 span {
+  font-weight: 400;
+  color: var(--ink-2);
+}
+.entry p {
+  margin: 0.3rem 0 0;
+  max-width: 58ch;
+}
+/* A blank line between paragraphs, so the gap stays well above the line spacing
+   (WCAG 1.4.8). Repeated for reading comfort, whose .entry p margin would win. */
+.entry p + p,
+:root[data-comfort="on"] .entry p + p {
+  margin-top: 1lh;
+}
+
+/* Skills */
+.skills {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+@media (max-width: 53.75em) {
+  .skills {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 28.75em) {
+  .skills {
+    grid-template-columns: 1fr;
+  }
+}
+.skills h3 {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink-2);
+  margin: 0 0 0.5rem;
+}
+.skills ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+/* Side projects, as a plain list */
+.projects-intro {
+  max-width: 58ch;
+  margin: 0 0 1.1rem;
+}
+.projects {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  border-top: 2px solid var(--ink);
+}
+.project {
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  gap: 0.45rem 1.75rem;
+  align-content: start;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.project h3 {
+  grid-row: span 2;
+  margin: 0;
+  font-size: 1.05rem;
+}
+.project p {
+  margin: 0;
+  max-width: 58ch;
+}
+.meta {
+  font: 0.875rem var(--mono);
+  line-height: inherit;
+  color: var(--ink-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+}
+@media (max-width: 40em) {
+  .project {
+    grid-template-columns: 1fr;
+  }
+  .project h3 {
+    grid-row: auto;
+  }
+  /* Each linked count on its own line, so short ones don't share a line with the language and stars. */
+  .meta span:has(> a) {
+    flex-basis: 100%;
+  }
+}
+
+/* Standalone links get a 44px tall target (WCAG 2.5.5, AAA). Links inside sentences are exempt. */
+.project h3 a,
+.meta a {
+  display: inline-flex;
+  min-height: 44px;
+}
+
+footer {
+  font: 0.9rem var(--mono);
+  line-height: inherit;
+  color: var(--ink-2);
+}
+footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+}
+footer nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
+}
+footer nav a[aria-current="page"] {
+  color: var(--ink);
+  text-decoration: none;
+}
+footer p {
+  margin: 0;
+}
+
+/* Abbreviations page: a ruled list like the work register */
+.glossary {
+  margin: 0;
+  border-top: 2px solid var(--ink);
+}
+.glossary div {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 0.25rem 1.75rem;
+  padding-block: 0.7rem;
+  border-bottom: 1px solid var(--rule);
+}
+.glossary dt {
+  font-weight: 600;
+}
+.glossary dd {
+  margin: 0;
+}
+
+/* Print: the page doubles as a one-file CV. Light colours, no controls, link targets written out. */
+@media print {
+  @page {
+    margin: 16mm 18mm;
+  }
+  :root,
+  :root[data-theme="dark"] {
+    --bg: #fff;
+    --surface: #fff;
+    --ink: #000;
+    --ink-2: #333;
+    --rule: #999;
+    --accent: #000;
+    --accent-ink: #fff;
+    color-scheme: light;
+  }
+  :root[data-comfort="on"] body {
+    font-size: 11pt;
+    line-height: 1.5;
+    letter-spacing: 0;
+    word-spacing: 0;
+  }
+  body {
+    font-size: 11pt;
+  }
+  .topbar,
+  .skip,
+  footer nav {
+    display: none;
+  }
+  .page {
+    max-width: none;
+    padding: 0;
+    gap: 1.5rem;
+  }
+  .stack {
+    gap: 1.5rem;
+  }
+  .actions a {
+    display: inline;
+    border: 0;
+    padding: 0;
+    min-height: 0;
+  }
+  .project h3 a,
+  .meta a {
+    display: inline;
+    min-height: 0;
+  }
+  .actions {
+    display: grid;
+    gap: 0.25rem;
+  }
+  .actions a[href^="http"]::after,
+  .meta a::after {
+    content: " " attr(href);
+    font-weight: 400;
+    color: var(--ink-2);
+  }
+  .project h3 a::after {
+    content: " " attr(href);
+    display: block;
+    font: 400 0.8rem var(--mono);
+  }
+  .entry,
+  .project,
+  .skills > div {
+    break-inside: avoid;
+  }
+  h2 {
+    break-after: avoid;
+  }
+}
