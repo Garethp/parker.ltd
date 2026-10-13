@@ -1,4 +1,5 @@
-// Renders the share card that link previews show (public/og.png, 1200x630).
+// Renders the share card that link previews show (public/og.png, 1000x630).
+// If you change its size, update og:image:width and og:image:height in src/layouts/Base.astro.
 // Run with `yarn og` after changing the name, role or domain in src/data/profile.ts.
 // If you change the props, update shareCardAlt in src/data/profile.ts to match.
 // Set CHROMIUM_PATH to use a different Chromium or Chrome build.
@@ -13,21 +14,20 @@ const html = `<!doctype html>
 <style>
   @font-face { font-family: Mono; font-weight: 200 800; src: url(data:font/woff2;base64,${mono}) format("woff2"); }
   html, body { margin: 0; }
-  /* The code block sits in the middle, so previews that crop the card to a narrower shape (Teams) cut both sides evenly. */
-  body { width: 1200px; height: 630px; background: #111318; display: grid; place-content: center; font-family: Mono, monospace; }
+  body { width: 1000px; height: 630px; background: #111318; display: grid; align-content: center; padding: 0 96px; box-sizing: border-box; font-family: Mono, monospace; }
   .big { color: #eef0f4; font-size: 84px; font-weight: 500; letter-spacing: -0.01em; }
   .sub { color: #7cc0ff; font-size: 36px; margin-top: 28px; }
-  .domain { color: #b9bfcc; font-size: 28px; margin-top: 24px; }
+  .domain { color: #b9bfcc; font-size: 28px; position: absolute; left: 96px; bottom: 64px; }
 </style>
 <div class="big">&lt;${profile.name.replaceAll(" ", "")}</div>
 <div class="sub">&nbsp;&nbsp;&nbsp;&nbsp;role="${profile.role}"</div>
 <div class="sub">&nbsp;&nbsp;&nbsp;&nbsp;since={2010}</div>
 <div class="sub">&nbsp;&nbsp;&nbsp;&nbsp;testDriven</div>
-<div class="big">/&gt;</div>
-<div class="domain">${profile.domain}</div>`;
+<div class="domain">${profile.domain}</div>
+<div class="big">/&gt;</div>`;
 
 const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
-const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
+const page = await browser.newPage({ viewport: { width: 1000, height: 630 } });
 await page.setContent(html);
 await page.evaluate(() => document.fonts.ready);
 await page.screenshot({ path: "public/og.png" });
