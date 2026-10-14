@@ -95,3 +95,13 @@ test("without JavaScript the page is dark and hides the toggles", async ({ brows
     await context.close();
   }
 });
+
+test("a long fragment from the CV's QR code is cleaned from the address", async ({ page, baseURL }) => {
+  await page.goto("/abbreviations/");
+  await page.goto("/#2700699573108604181880610990935991906470867480027666771310095283698033920045545548690326");
+  await expect(page).toHaveURL(`${baseURL}/`);
+
+  await page.goto("/abbreviations/");
+  await page.goto("/#main");
+  await expect(page).toHaveURL(`${baseURL}/#main`);
+});

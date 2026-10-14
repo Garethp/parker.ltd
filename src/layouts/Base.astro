@@ -57,6 +57,8 @@ const ogImage = new URL("/og.png", site).href;
       if (bar) bar.content = bar.dataset[root.dataset.theme];
       if (comfort === "on") root.dataset.comfort = "on";
 
+      if (location.pathname === "/" && location.hash.length > 50) history.replaceState(null, "", "/");
+
       root.dataset.js = "";
     })();
     </script>
